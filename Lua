@@ -1,0 +1,23 @@
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/Arceus-X-UI-Library/main/source.lua"))()
+lib:SetTitle("Ｚｅｎｎｓhub")
+lib:SetIcon("rbxassetid://15286541625")
+
+lib:AddButton("Dupe Item (Beta free access)", function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local backpack = player:FindFirstChild("Backpack")
+    
+    local tool = character:FindFirstChildOfClass("Tool") or (backpack and backpack:FindFirstChildOfClass("Tool"))
+    
+    if tool then
+        local remote = game:GetService("ReplicatedStorage"):FindFirstChild("DupeRemote") or game:GetService("ReplicatedStorage"):FindFirstChild("ItemRemote")
+        if remote and remote:IsA("RemoteEvent") then
+            remote:FireServer(tool, 2)
+        else
+            local toolClone = tool:Clone()
+            if backpack then
+                toolClone.Parent = backpack
+            end
+        end
+    end
+end)
